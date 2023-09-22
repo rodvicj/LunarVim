@@ -100,7 +100,7 @@ function M.config()
         symlink_destination = true,
       },
       hijack_directories = {
-        enable = false,
+        enable = true,
         auto_open = true,
       },
       update_focused_file = {
@@ -126,7 +126,7 @@ function M.config()
         },
       },
       filters = {
-        dotfiles = false,
+        dotfiles = true,
         git_clean = false,
         no_buffer = false,
         custom = { "node_modules", "\\.cache" },
@@ -166,7 +166,7 @@ function M.config()
         },
         open_file = {
           quit_on_open = false,
-          resize_window = false,
+          resize_window = true,
           window_picker = {
             enable = true,
             picker = "default",
