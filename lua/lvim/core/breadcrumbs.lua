@@ -38,7 +38,7 @@ M.config = function()
     options = {
       icons = {
         Array = icons.Array .. " ",
-        Boolean = icons.Boolean,
+        Boolean = icons.Boolean .. " ",
         Class = icons.Class .. " ",
         Color = icons.Color .. " ",
         Constant = icons.Constant .. " ",
@@ -73,7 +73,8 @@ M.config = function()
         Variable = icons.Variable .. " ",
       },
       highlight = true,
-      separator = " " .. lvim.icons.ui.ChevronRight .. " ",
+      -- separator = " " .. lvim.icons.ui.ChevronRight .. " ",
+      separator = " " .. "➤" .. " ",
       depth_limit = 0,
       depth_limit_indicator = "..",
     },
@@ -158,7 +159,8 @@ local get_gps = function()
   end
 
   if not require("lvim.utils.functions").isempty(gps_location) then
-    return "%#NavicSeparator#" .. lvim.icons.ui.ChevronRight .. "%* " .. gps_location
+    -- return "%#NavicSeparator#" .. lvim.icons.ui.ChevronRight .. "%* " .. gps_location
+    return "➤" .. "%* " .. gps_location
   else
     return ""
   end
@@ -209,29 +211,27 @@ end
 
 M.create_winbar = function()
   vim.api.nvim_create_augroup("_winbar", {})
-  if vim.fn.has "nvim-0.8" == 1 then
-    vim.api.nvim_create_autocmd({
-      "CursorHoldI",
-      "CursorHold",
-      "BufWinEnter",
-      "BufFilePost",
-      "InsertEnter",
-      "BufWritePost",
-      "TabClosed",
-      "TabEnter",
-    }, {
-      group = "_winbar",
-      callback = function()
-        if lvim.builtin.breadcrumbs.active then
-          local status_ok, _ = pcall(vim.api.nvim_buf_get_var, 0, "lsp_floating_window")
-          if not status_ok then
-            -- TODO:
-            require("lvim.core.breadcrumbs").get_winbar()
-          end
+  vim.api.nvim_create_autocmd({
+    "CursorHoldI",
+    "CursorHold",
+    "BufWinEnter",
+    "BufFilePost",
+    "InsertEnter",
+    "BufWritePost",
+    "TabClosed",
+    "TabEnter",
+  }, {
+    group = "_winbar",
+    callback = function()
+      if lvim.builtin.breadcrumbs.active then
+        local status_ok, _ = pcall(vim.api.nvim_buf_get_var, 0, "lsp_floating_window")
+        if not status_ok then
+          -- TODO:
+          require("lvim.core.breadcrumbs").get_winbar()
         end
-      end,
-    })
-  end
+      end
+    end,
+  })
 end
 
 return M
