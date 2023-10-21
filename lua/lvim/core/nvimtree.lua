@@ -242,6 +242,11 @@ local function on_attach(bufnr)
     require("lvim.core.nvimtree").start_telescope "live_grep"
   end
 
+  local function collapse(_)
+    api.tree.collapse_all()
+    vim.cmd("buffer")
+  end
+
   local function opts(desc)
     return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
   end
@@ -256,7 +261,7 @@ local function on_attach(bufnr)
     ["h"] = { api.node.navigate.parent_close, opts "Close Directory" },
     ["C"] = { api.tree.change_root_to_node, opts "CD" },
     ["<S-k>"] = { api.node.open.preview, opts "Open Preview" },
-    -- ["<S-Tab>"] = { api.tree.collapse_all, opts "Collapse All" },
+    ["<S-Tab>"] = { collapse, opts "Collapse All" },
     ["gtg"] = { telescope_live_grep, opts "Telescope Live Grep" },
     ["gtf"] = { telescope_find_files, opts "Telescope Find File" },
   }
